@@ -1,0 +1,10 @@
+dist
+node_modules
+docs/stories.md
+pnpm-lock.yaml
+
+**/docs/by-file/
+**/reports/
+coverage
+tools/oxlint/anti-slop
+tests/consumer/readme

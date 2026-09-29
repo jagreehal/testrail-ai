@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Validating tool input at the protocol boundary > prices every capability the server lists, and fingerprints each one 1`] = `
+{
+  "prompt:coverage_gap": "2c3054d209b433ed",
+  "prompt:regression_summary": "8f56396d83becf30",
+  "prompt:triage_run": "b6eca5ffc42b4dbb",
+  "resource:meta": "87b8be578b83f0fc",
+  "resource:project": "32162c3186df4ee5",
+  "resource:projects": "08ad22788fca33b8",
+  "resource:run": "f102de9dad0c9439",
+  "testrail_case": "dca217ffe83c49c0",
+  "testrail_case_write": "a73ccc3ec82e1570",
+  "testrail_coverage": "ad546e266061f29f",
+  "testrail_failures": "f298f851c12ee688",
+  "testrail_flaky": "5dbd2bbb98d5d2d2",
+  "testrail_raw": "92c0cd749c8bbc3a",
+  "testrail_report_result": "42c307877a695760",
+  "testrail_run": "8e5742397291dc7b",
+  "testrail_run_report": "0e5ffe269136b2f1",
+  "testrail_search": "60795dd5fcc6ecd7",
+}
+`;

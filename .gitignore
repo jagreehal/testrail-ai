@@ -1,0 +1,15 @@
+node_modules
+dist
+.turbo
+.pnpm-store
+.env
+.DS_Store
+.claude/
+
+# executable-stories: per-run state and the HTML report. docs/stories.md is committed.
+**/docs/by-file/
+**/reports/
+coverage
+
+# Generated from the READMEs by tests/consumer/scripts/readme-snippets.mjs
+tests/consumer/readme/

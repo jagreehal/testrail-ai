@@ -1,0 +1,24 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+  - 'tests/*'
+
+# Supply chain: pin exact versions, and refuse any release younger than three
+# days, so a compromised publish is usually yanked before it can land here.
+saveExact: true
+minimumReleaseAge: 4320
+# First-party packages, released from our own pipeline, skip the wait.
+minimumReleaseAgeExclude:
+  - mcp-authz
+
+allowBuilds:
+  esbuild: true
+  protobufjs: false
+
+# Patched floors for transitive dependencies of the MCP SDK and telemetry
+# stack, so `pnpm audit --prod --audit-level high` passes in CI.
+overrides:
+  fast-uri@<3.1.7: ^3.1.7
+  hono@<4.13.5: ^4.13.5
+  ip-address@<10.5.1: ^10.5.1
+  qs@<6.16.0: ^6.16.0

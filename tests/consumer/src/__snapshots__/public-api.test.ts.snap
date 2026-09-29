@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Public API > testrail-ai exports 1`] = `
+[
+  "CaseDetailInputSchema",
+  "CaseWriteFieldsSchema",
+  "CoverageInputSchema",
+  "EntitySchema",
+  "FailuresInputSchema",
+  "RawInputSchema",
+  "ReportResultsInputSchema",
+  "ResultStatusSchema",
+  "RunReportInputSchema",
+  "RunWriteFieldsSchema",
+  "STATUS_IDS",
+  "SearchInputSchema",
+  "StabilityInputSchema",
+  "TestRailClient",
+  "TestRailError",
+  "closeRun",
+  "completeness",
+  "createCase",
+  "createRun",
+  "formatCaseDetail",
+  "formatCoverage",
+  "formatFailures",
+  "formatRunReport",
+  "formatSearch",
+  "formatStability",
+  "getCaseDetail",
+  "getCoverage",
+  "getFailures",
+  "getRunReport",
+  "getStability",
+  "hasRun",
+  "isNotPassing",
+  "loadConfig",
+  "loadMeta",
+  "parseSteps",
+  "recentRuns",
+  "reportResults",
+  "runCounts",
+  "search",
+  "sharedClient",
+  "statusKind",
+  "updateCase",
+  "updateRun",
+]
+`;
+
+exports[`Public API > testrail-ai/advanced exports 1`] = `
+[
+  "DEFAULT_CONCURRENCY",
+  "appendQuery",
+  "clip",
+  "clusterByMessage",
+  "failedStepNumbers",
+  "htmlToText",
+  "isWriteEndpoint",
+  "mapWithConcurrency",
+  "normaliseMessage",
+  "stepsTable",
+  "table",
+  "toUnix",
+  "truncate",
+  "unixToDate",
+  "unixToIso",
+]
+`;
+
+exports[`Public API > testrail-ai/testing exports 1`] = `
+[
+  "FAKE_META",
+  "TEST_CONFIG",
+  "fakeTestRail",
+  "page",
+  "sentBody",
+]
+`;
+
+exports[`Public API > testrail-ai-mcp exports 1`] = `
+[
+  "GATE_PERMISSIONS",
+  "SERVER_INFO",
+  "buildServer",
+  "loadTelemetry",
+  "registerPrompts",
+  "registerResources",
+  "registerTools",
+]
+`;

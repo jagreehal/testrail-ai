@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  # Release calls this, so a publish depends on these exact-commit checks rather
+  # than racing an independent CI run.
+  workflow_call:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # executable-stories PR comments
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+
+      # Corepack reads the pnpm version from `packageManager`, so it is pinned once.
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Locate the pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pnpm dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level high
+
+      # test:smoke is deliberately absent. It needs live TestRail credentials,
+      # and the unit suite covers the same paths against a fake instance.
+      - name: Quality and artifact gate
+        run: pnpm quality
+        env:
+          NODE_ENV: test
+
+      - name: Generated stories are current
+        run: git diff --exit-code -- 'apps/*/docs/stories.md' 'packages/*/docs/stories.md'
+
+      # One comment and one HTML artifact per package. Each runs even when the
+      # tests fail, and skips a package whose suite wrote no report.
+      - name: Stories (testrail-ai)
+        if: always() && github.event_name == 'pull_request' && hashFiles('packages/testrail-ai/reports/test-results.md') != ''
+        uses: jagreehal/executable-stories-action@fcc997b7365dac7ed9545ad248cbe6993167cfea # v2
+        with:
+          report-dir: packages/testrail-ai/reports
+          artifact-name: stories-testrail-ai
+          comment-title: testrail-ai stories
+
+      - name: Stories (testrail-ai-mcp)
+        if: always() && github.event_name == 'pull_request' && hashFiles('apps/testrail-mcp/reports/test-results.md') != ''
+        uses: jagreehal/executable-stories-action@fcc997b7365dac7ed9545ad248cbe6993167cfea # v2
+        with:
+          report-dir: apps/testrail-mcp/reports
+          artifact-name: stories-testrail-ai-mcp
+          comment-title: testrail-ai-mcp stories
+
+      - name: Stories (testrail-ai-cli)
+        if: always() && github.event_name == 'pull_request' && hashFiles('apps/testrail-ai-cli/reports/test-results.md') != ''
+        uses: jagreehal/executable-stories-action@fcc997b7365dac7ed9545ad248cbe6993167cfea # v2
+        with:
+          report-dir: apps/testrail-ai-cli/reports
+          artifact-name: stories-testrail-ai-cli
+          comment-title: testrail-ai-cli stories
+
+      - name: Upload coverage reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage
+          path: '*/*/coverage/'
+          if-no-files-found: ignore

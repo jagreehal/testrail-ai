@@ -1,0 +1,14 @@
+{
+  "extends": "@total-typescript/tsconfig/tsc/no-dom/app",
+  "compilerOptions": {
+    "module": "ESNext",
+    // The v2 SDK ships an `exports` map only — node10 resolution cannot see it.
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "types": ["node"],
+    "rewriteRelativeImportExtensions": true,
+    "outDir": "./dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/smoke.ts"]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "type-check": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!readme/**",
+        "$TURBO_ROOT$/README.md",
+        "$TURBO_ROOT$/packages/*/README.md",
+        "$TURBO_ROOT$/apps/*/README.md"
+      ]
+    }
+  }
+}

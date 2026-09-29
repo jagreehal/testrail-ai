@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+# Default-deny: the workflow itself gets no write scopes.
+# Only the publish job below is granted the tokens it needs.
+permissions:
+  contents: read
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  validate:
+    uses: ./.github/workflows/ci.yml
+    # A called workflow can hold no more than its caller grants. CI's job asks
+    # for pull-requests: write to comment stories on PRs; on a push it never does.
+    permissions:
+      contents: read
+      pull-requests: write
+
+  release:
+    name: Release
+    needs: validate
+    runs-on: ubuntu-latest
+    # Never run in a fork or under another owner.
+    if: github.repository_owner == 'jagreehal'
+    # Pairs with the npm trusted-publisher "Environment name = release" setting.
+    # GitHub only grants this environment to jobs that satisfy the environment's
+    # rules (deployment branch restricted to main + required reviewer), so a
+    # workflow running from any other branch cannot obtain the OIDC claim npm
+    # requires, and the publish is rejected. Releases can only originate from
+    # the protected release path.
+    environment: release
+    permissions:
+      contents: write # changesets: version commit, tags, GitHub release
+      pull-requests: write # changesets: open the "Version Packages" PR
+      id-token: write # OIDC trusted publishing / provenance — scoped to THIS job only
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@11
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # `pnpm release` runs the full quality gate again before `changeset
+      # publish`, so what ships is what was just built and tested here.
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          publish-script: pnpm release
+          commit-message: 'chore: release packages'
+          pr-title: 'chore: release packages'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NPM_CONFIG_PROVENANCE: true

@@ -1,0 +1,88 @@
+{
+  "name": "testrail-ai",
+  "version": "0.1.0",
+  "description": "TestRail for AI agents \u2014 task-oriented reads, failure clustering, stability analysis. The engine behind testrail-ai-mcp and testrail-ai-cli.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jagreehal/testrail-ai"
+  },
+  "homepage": "https://github.com/jagreehal/testrail-ai#readme",
+  "bugs": {
+    "url": "https://github.com/jagreehal/testrail-ai/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./advanced": {
+      "import": {
+        "types": "./dist/advanced.d.ts",
+        "default": "./dist/advanced.js"
+      },
+      "require": {
+        "types": "./dist/advanced.d.cts",
+        "default": "./dist/advanced.cjs"
+      }
+    },
+    "./testing": {
+      "import": {
+        "types": "./dist/testing.d.ts",
+        "default": "./dist/testing.js"
+      },
+      "require": {
+        "types": "./dist/testing.d.cts",
+        "default": "./dist/testing.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest run --coverage && prettier --write docs/stories.md",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "testrail",
+    "qa",
+    "test-management",
+    "ai",
+    "agents",
+    "mcp"
+  ],
+  "author": "Jag Reehal <jag@jagreehal.com> (https://jagreehal.com)",
+  "license": "MIT",
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@opentelemetry/context-async-hooks": "2.11.0",
+    "@opentelemetry/sdk-trace-base": "2.11.0",
+    "@types/node": "26.6.3",
+    "@vitest/coverage-v8": "5.0.2",
+    "executable-stories-vitest": "8.9.8",
+    "tsdown": "0.23.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

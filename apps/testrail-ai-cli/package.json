@@ -1,0 +1,56 @@
+{
+  "name": "testrail-ai-cli",
+  "version": "0.1.0",
+  "description": "CLI for TestRail — run reports, failure triage, flaky detection and coverage gaps, as markdown or JSON",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jagreehal/testrail-ai"
+  },
+  "homepage": "https://github.com/jagreehal/testrail-ai#readme",
+  "bugs": {
+    "url": "https://github.com/jagreehal/testrail-ai/issues"
+  },
+  "type": "module",
+  "bin": {
+    "testrail-ai": "./dist/index.js",
+    "testrail-ai-cli": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run && prettier --write docs/stories.md",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "testrail",
+    "cli",
+    "qa",
+    "test-management",
+    "ai-agents"
+  ],
+  "author": "Jag Reehal <jag@jagreehal.com> (https://jagreehal.com)",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^15.0.0",
+    "testrail-ai": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.3",
+    "@vitest/coverage-v8": "5.0.2",
+    "executable-stories-vitest": "8.9.8",
+    "tsdown": "0.23.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vitest": "5.0.2",
+    "zod": "4.6.5"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "testrail-ai-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TestRail for AI agents — a core library, an MCP server, and a CLI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jagreehal/testrail-ai"
+  },
+  "homepage": "https://github.com/jagreehal/testrail-ai#readme",
+  "bugs": {
+    "url": "https://github.com/jagreehal/testrail-ai/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "oxlint --type-aware --deny-warnings",
+    "test": "turbo test",
+    "test:smoke": "turbo test:smoke",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "stories:format": "prettier --write \"apps/*/docs/stories.md\" \"packages/*/docs/stories.md\"",
+    "artifacts:check": "node scripts/check-artifacts.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm quality && git diff --exit-code && changeset publish",
+    "quality": "pnpm build && pnpm lint && pnpm type-check && pnpm test && pnpm format:check && pnpm artifacts:check",
+    "lint:fix": "oxlint --type-aware --fix"
+  },
+  "devDependencies": {
+    "@changesets/cli": "3.0.3",
+    "@oxlint/plugins": "1.85.0",
+    "@types/node": "26.6.3",
+    "oxlint": "1.85.0",
+    "oxlint-tsgolint": "7.0.2003",
+    "prettier": "3.9.9",
+    "tsdown": "0.23.0",
+    "turbo": "2.11.4",
+    "typescript": "7.0.2",
+    "vitest": "5.0.2"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "author": "Jag Reehal <jag@jagreehal.com> (https://jagreehal.com)",
+  "license": "MIT"
+}

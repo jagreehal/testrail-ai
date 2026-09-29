@@ -1,0 +1,21 @@
+{
+  "name": "testrail-ai-consumer",
+  "private": true,
+  "description": "Compiles and imports the published packages the way a consumer would",
+  "type": "module",
+  "scripts": {
+    "type-check": "node scripts/readme-snippets.mjs && tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "mcp-authz": "0.2.0",
+    "testrail-ai": "workspace:*",
+    "testrail-ai-mcp": "workspace:*"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server": "2.1.0",
+    "@types/node": "26.6.3",
+    "typescript": "7.0.2",
+    "vitest": "5.0.2"
+  }
+}
