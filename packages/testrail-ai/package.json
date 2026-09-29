@@ -1,6 +1,6 @@
 {
   "name": "testrail-ai",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "TestRail for AI agents \u2014 task-oriented reads, failure clustering, stability analysis. The engine behind testrail-ai-mcp and testrail-ai-cli.",
   "repository": {
     "type": "git",

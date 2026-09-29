@@ -1,6 +1,6 @@
 {
   "name": "testrail-ai-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI for TestRail — run reports, failure triage, flaky detection and coverage gaps, as markdown or JSON",
   "repository": {
     "type": "git",
