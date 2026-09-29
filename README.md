@@ -1,37 +1,50 @@
 # testrail-ai
 
-TestRail shaped for agents. One core library and two frontends — a CLI and a
-local MCP server — so you pick whichever fits how you work.
+[![CI](https://github.com/jagreehal/testrail-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/jagreehal/testrail-ai/actions/workflows/ci.yml)
+[![testrail-ai-mcp](https://img.shields.io/npm/v/testrail-ai-mcp?label=testrail-ai-mcp)](https://www.npmjs.com/package/testrail-ai-mcp)
+[![testrail-ai-cli](https://img.shields.io/npm/v/testrail-ai-cli?label=testrail-ai-cli)](https://www.npmjs.com/package/testrail-ai-cli)
+[![testrail-ai](https://img.shields.io/npm/v/testrail-ai?label=testrail-ai)](https://www.npmjs.com/package/testrail-ai)
+
+TestRail shaped for agents. Ask your assistant about your tests in plain words
+and get an answer, with links, in one call:
+
+- "How did last night's regression go?" — totals, pass rate, and failures
+  grouped by root cause
+- "What is failing, and when did it last pass?"
+- "Is this test flaky, or did it regress?" — the two are told apart
+- "What are we not testing?" — cases with no requirement, cases nobody runs,
+  requirements with no case
+- "Find the cases under Checkout > Payments"
+
+One core library, two ways in: an MCP server for Claude, Cursor and any other
+MCP client, and a CLI for the terminal, scripts and CI.
 
 | Package                                   | What it is                                                                        |
 | ----------------------------------------- | --------------------------------------------------------------------------------- |
-| [`testrail-ai`](packages/testrail-ai)     | The engine. Fetch, join and analyse; returns typed data and, on its own, markdown |
 | [`testrail-ai-mcp`](apps/testrail-mcp)    | MCP server, specification 2026-07-28. Ten tools, four resources, three prompts    |
-| [`testrail-ai-cli`](apps/testrail-ai-cli) | CLI. Same commands, `--json` for pipes                                            |
+| [`testrail-ai-cli`](apps/testrail-ai-cli) | CLI. Same analysis, `--json` for pipes                                            |
+| [`testrail-ai`](packages/testrail-ai)     | The engine. Fetch, join and analyse; returns typed data and, on its own, markdown |
 | [`skills/`](skills)                       | Claude agent skills that drive the CLI, with no server process                    |
-
-## Why ten tools
-
-The other TestRail MCP servers mirror the REST API one tool per endpoint:
-`getCase`, `getCases`, `addCase`, `updateCases`, `copyToSection`, and on to
-forty-two. That costs twice. Every tool schema sits in the model's context on
-every turn, and "why did last night's regression fail?" becomes a five-call
-orchestration the model has to get right each time.
-
-Here the join happens in code. `testrail_run_report` is one call that fetches the
-run, its tests and its results, groups the failures by root cause and returns a
-page of markdown.
 
 ## Quick start
 
-```bash
-pnpm install
-cp .env.example .env     # fill in url, email, api key
-pnpm build
-pnpm test
-```
+You need your TestRail URL, the email you sign in with, and an API key (My
+Settings › API Keys in TestRail). Everything is read-only until you opt in to
+writes.
 
 ### MCP server
+
+In Claude Code:
+
+```bash
+claude mcp add testrail \
+  -e TESTRAIL_URL=https://your-instance.testrail.io \
+  -e TESTRAIL_EMAIL=you@example.com \
+  -e TESTRAIL_API_KEY=your-api-key \
+  -- npx -y testrail-ai-mcp
+```
+
+Or in any client's MCP config:
 
 ```json
 {
@@ -42,12 +55,16 @@ pnpm test
       "env": {
         "TESTRAIL_URL": "https://your-instance.testrail.io",
         "TESTRAIL_EMAIL": "you@example.com",
-        "TESTRAIL_API_KEY": "your-api-key"
+        "TESTRAIL_API_KEY": "your-api-key",
+        "TESTRAIL_PROJECT_ID": "5"
       }
     }
   }
 }
 ```
+
+`TESTRAIL_PROJECT_ID` is optional: set it if you work mostly in one project and
+the tools use it whenever a project is left out.
 
 ### CLI
 
@@ -65,7 +82,7 @@ testrail-ai --json report 612 | jq .passRate
 ### Agent skills
 
 ```bash
-npx skills add testrail-ai
+npx skills add jagreehal/testrail-ai
 ```
 
 Installs `testrail-triage-run`, `testrail-regression-summary` and
@@ -84,6 +101,15 @@ report.passRate; // 94.1
 report.clusters.length; // 7 distinct causes
 formatRunReport(report); // …or the markdown
 ```
+
+## Why ten tools
+
+Each tool answers a question rather than wrapping an endpoint. The joins happen
+in code: `testrail_run_report` fetches the run, its tests and its results,
+groups the failures by root cause and returns one page of markdown. The model
+makes one call instead of orchestrating five, and only ten tool schemas sit in
+its context on every turn. `testrail_raw` covers the rest of the API when a
+question needs it.
 
 ## Architecture
 
@@ -126,9 +152,13 @@ funnels through one gate in the client, keyed on TestRail's mutating verbs
 deployment stays read-only even through the `testrail_raw` escape hatch, which
 refuses the call before building a request. No tool wraps `delete_*` at all.
 
-## Testing
+## Development
 
 ```bash
+pnpm install
+cp .env.example .env     # fill in url, email, api key
+pnpm build
+pnpm quality       # build, lint, type-check, test, format and artifact checks
 pnpm test          # deterministic tests, no network
 pnpm test:smoke    # read-only integration check against a real instance
 ```
