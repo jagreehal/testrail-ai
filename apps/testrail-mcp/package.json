@@ -1,6 +1,6 @@
 {
   "name": "testrail-ai-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server for TestRail — ten task-oriented tools, resources and prompts, on specification 2026-07-28",
   "repository": {
     "type": "git",
