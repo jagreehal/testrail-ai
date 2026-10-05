@@ -610,6 +610,38 @@ Tags: `authorization`, `mcp`
 - **And** the escape hatch is admin, not write
 - **And** each definition is fingerprinted, so a changed description or schema shows up in review
 
+## src/stdio.story.test.ts
+
+### stdio --env-file
+
+### ✅ loads the named file
+
+Tags: `config`, `stdio`
+
+- **Given** an env file and no TESTRAIL_* variables
+- **Then** the server starts against the URL in the file
+
+### ✅ lets the environment win over the file
+
+Tags: `config`, `stdio`
+
+- **Given** TESTRAIL_URL set in the environment and in the file
+- **Then** the environment value is used
+
+### ✅ refuses a relative path
+
+Tags: `config`, `stdio`
+
+- **Given** --env-file testrail.env, relative to the working directory
+- **Then** it exits without reading it
+
+### ✅ never reads ./.env on its own
+
+Tags: `config`, `stdio`
+
+- **Given** a .env in the working directory and no flag
+- **Then** it is ignored and the server says it is not configured
+
 ## src/telemetry.story.test.ts
 
 ### Telemetry

@@ -85,8 +85,8 @@ export function loadConfig(
 
     throw new Error(
       `TestRail MCP is not configured.\n${problems}\n\n` +
-        'Set TESTRAIL_URL, TESTRAIL_EMAIL and TESTRAIL_API_KEY in the environment ' +
-        '(or in a .env file next to the server).',
+        'Set TESTRAIL_URL, TESTRAIL_EMAIL and TESTRAIL_API_KEY in the environment: ' +
+        "the env block of your MCP client's config, or your shell. To load them from a file, run testrail-ai-mcp --env-file <absolute path>.",
     );
   }
 

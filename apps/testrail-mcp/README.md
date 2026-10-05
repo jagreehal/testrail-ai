@@ -27,6 +27,10 @@ Set `TESTRAIL_PROJECT_ID` as well if you work mostly in one project. Every tool
 then uses it when `project_id` is left out, and the tool schemas and server
 instructions name it, so the model does not have to look it up first.
 
+To share settings between clients, put them in a file and add
+`"--env-file", "/absolute/path/to/testrail.env"` to `args`. Values in the `env`
+block take precedence over the file.
+
 ## Tools
 
 | Tool                     | Answers                                                 |

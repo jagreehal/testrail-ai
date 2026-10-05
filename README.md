@@ -44,7 +44,51 @@ claude mcp add testrail \
   -- npx -y testrail-ai-mcp
 ```
 
-Or in any client's MCP config:
+In Codex:
+
+```bash
+codex mcp add testrail \
+  --env TESTRAIL_URL=https://your-instance.testrail.io \
+  --env TESTRAIL_EMAIL=you@example.com \
+  --env TESTRAIL_API_KEY=your-api-key \
+  -- npx -y testrail-ai-mcp
+```
+
+or in `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.testrail]
+command = "npx"
+args = ["-y", "testrail-ai-mcp"]
+
+[mcp_servers.testrail.env]
+TESTRAIL_URL = "https://your-instance.testrail.io"
+TESTRAIL_EMAIL = "you@example.com"
+TESTRAIL_API_KEY = "your-api-key"
+```
+
+In VS Code, `.vscode/mcp.json` (note `servers` and `type`):
+
+```json
+{
+  "servers": {
+    "testrail": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "testrail-ai-mcp"],
+      "env": {
+        "TESTRAIL_URL": "https://your-instance.testrail.io",
+        "TESTRAIL_EMAIL": "you@example.com",
+        "TESTRAIL_API_KEY": "your-api-key"
+      }
+    }
+  }
+}
+```
+
+In Cursor (`~/.cursor/mcp.json` or `.cursor/mcp.json`), Claude Desktop
+(`claude_desktop_config.json`), Windsurf (`~/.codeium/windsurf/mcp_config.json`)
+and most other clients:
 
 ```json
 {
@@ -65,6 +109,21 @@ Or in any client's MCP config:
 
 `TESTRAIL_PROJECT_ID` is optional: set it if you work mostly in one project and
 the tools use it whenever a project is left out.
+
+The server reads its settings from the process environment: put them in the
+client's `env` block, or export them in the shell that launches the client. Add
+`TESTRAIL_ALLOW_WRITES=true` there to turn on writes.
+
+To share one set of credentials between clients, keep them in a file and pass
+its absolute path:
+
+```json
+"args": ["-y", "testrail-ai-mcp", "--env-file", "/Users/you/.config/testrail-ai-mcp/env"]
+```
+
+Values already in the environment take precedence over the file. The path must
+be absolute, since each client starts the server from a different working
+directory.
 
 ### CLI
 
