@@ -62,7 +62,7 @@ Tags: `cli`, `config`
     - email: TESTRAIL_EMAIL is required
     - apiKey: TESTRAIL_API_KEY is required
 
-  Set TESTRAIL_URL, TESTRAIL_EMAIL and TESTRAIL_API_KEY in the environment (or in a .env file next to the server).
+  Set TESTRAIL_URL, TESTRAIL_EMAIL and TESTRAIL_API_KEY in the environment: the env block of your MCP client's config, or your shell. To load them from a file, run testrail-ai-mcp --env-file <absolute path>.
 
   ```
 
