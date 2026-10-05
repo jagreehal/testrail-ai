@@ -1,5 +1,16 @@
 # testrail-ai-mcp
 
+## 0.3.0
+
+### Minor Changes
+
+- 54917b8: `testrail-ai-mcp --env-file <absolute path>` loads TestRail settings from a file that several MCP clients can share. Variables already in the environment take precedence. The setup message points to the client's `env` block and the new flag, and the README shows configuration for Claude Code, Codex, VS Code, Cursor, Claude Desktop and Windsurf.
+
+### Patch Changes
+
+- Updated dependencies [54917b8]
+  - testrail-ai@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
