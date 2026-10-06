@@ -8,12 +8,12 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "mcp-authz": "0.2.0",
+    "mcp-authz": "0.3.0",
     "testrail-ai": "workspace:*",
     "testrail-ai-mcp": "workspace:*"
   },
   "devDependencies": {
-    "@modelcontextprotocol/server": "2.1.0",
+    "@modelcontextprotocol/server": "2.3.0",
     "@types/node": "26.6.3",
     "typescript": "7.0.2",
     "vitest": "5.0.2"
