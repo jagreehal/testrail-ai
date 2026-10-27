@@ -50,18 +50,18 @@
   "license": "MIT",
   "dependencies": {
     "testrail-ai": "workspace:*",
-    "@modelcontextprotocol/node": "^2.1.0",
-    "@modelcontextprotocol/server": "^2.1.0",
-    "autotel": "^7.9.0",
-    "autotel-mcp-instrumentation": "^59.0.0",
-    "zod": "^4.6.5"
+    "@modelcontextprotocol/node": "^2.1.2",
+    "@modelcontextprotocol/server": "^2.4.0",
+    "autotel": "^8.5.0",
+    "autotel-mcp-instrumentation": "^59.3.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.1.0",
     "@types/node": "26.6.3",
     "@vitest/coverage-v8": "5.0.2",
     "executable-stories-vitest": "8.9.8",
-    "mcp-authz": "0.2.0",
+    "mcp-authz": "0.5.0",
     "tsdown": "0.23.0",
     "tsx": "4.23.15",
     "typescript": "7.0.2",

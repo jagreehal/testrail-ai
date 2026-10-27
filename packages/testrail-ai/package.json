@@ -69,8 +69,8 @@
   "author": "Jag Reehal <jag@jagreehal.com> (https://jagreehal.com)",
   "license": "MIT",
   "dependencies": {
-    "@opentelemetry/api": "^1.9.1",
-    "zod": "^4.6.5"
+    "@opentelemetry/api": "^1.10.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@opentelemetry/context-async-hooks": "2.11.0",
